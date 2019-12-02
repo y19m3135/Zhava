@@ -1,0 +1,97 @@
+monday's 1
+child 2
+is 2
+fair 1
+of 2
+face 1
+tuesday's 1
+full 1
+grace 1
+
+BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new FileInputStream("/Users/ilyabarishnikov/Desktop/proga/day4/Example/input.txt"), "utf8"));
+
+                import java.io.*;
+                import java.nio.charset.StandardCharsets;
+                import java.util.*;
+
+                public class WordStatWords {
+                    public static void main(String[] args) throws IOException {
+                        Map<String, Integer> m = new TreeMap<>();
+                        try (BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(
+                                        new FileOutputStream(args[1]),
+                                        StandardCharsets.UTF_8
+                                )
+                        )) {
+                            FastReader in = new FastReader();
+                            while (true) {
+                                String line = in.nextLine();
+                                if (line == null) {
+                                    for (String s : m.keySet()) {
+                                        writer.write(s + " " + m.get(s) + '\n');
+                                    }
+                                    return;
+                                }
+                                int y = 0;
+                                StringBuilder s = new StringBuilder();
+                                while (line.length() != y) {
+                                    if (Character.getType(line.charAt(y)) == Character.DASH_PUNCTUATION ||
+                                            Character.isAlphabetic(line.charAt(y)) || line.charAt(y) == '\'') {
+                                        s.append(line.charAt(y));
+                                    } else {
+                                        if (s.substring(0).isEmpty()) continue;
+                                        String ar = s.substring(0);
+                                        ar = ar.toLowerCase();
+                                        if (!m.containsKey(ar)) {
+                                            m.put(ar, 1);
+                                        } else {
+                                            m.put(ar, m.get(ar) + 1);
+                                        }
+                                        s = new StringBuilder();
+                                    }
+                                    y++;
+                                }
+                                if (!s.substring(0).isEmpty()){
+                                    String ar = s.substring(0);
+                                    ar = ar.toLowerCase();
+                                    if (!m.containsKey(ar)) {
+                                        m.put(ar, 1);
+                                    } else {
+                                        m.put(ar, m.get(ar) + 1);
+                                    }
+                                    s = new StringBuilder();
+                                }
+                                /**
+                                 * String[] ars = line.split("[^['][\\p{Pd}][\\p{IsAlphabetic}]]");
+                                 * for (String ar : ars) {
+                                 * if (ar.isEmpty()) continue;
+                                 * ar = ar.toLowerCase();
+                                 * if (!m.containsKey(ar)) {
+                                 * m.put(ar, 1);
+                                 * } else {
+                                 * m.put(ar, m.get(ar) + 1);
+                                 * }
+                                 * }
+                                 * */
+                            }
+                        }
+                    }
+                    static class FastReader {
+                        BufferedReader br;
+
+                        FastReader() {
+                            br = new BufferedReader(new InputStreamReader(System.in));
+                        }
+
+                        String nextLine() {
+                            String str = "";
+                            try {
+                                str = br.readLine();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return str;
+                        }
+                    }
+                }
