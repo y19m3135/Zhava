@@ -13,10 +13,10 @@ import java.util.stream.Stream;
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
-public class MainChecker extends base.Randomized {
+public class MainChecker extends Randomized {
     public static final String ENCODING = "utf8";
     private final Method method;
-    protected final base.TestCounter counter = new base.TestCounter();
+    protected final TestCounter counter = new TestCounter();
 
     public MainChecker(final String className) {
         try {
@@ -67,11 +67,11 @@ public class MainChecker extends base.Randomized {
             final String exp = expected.get(i);
             final String act = actual.get(i);
             if (!exp.equalsIgnoreCase(act)) {
-                base.Asserts.assertEquals("Line " + (i + 1), exp, act);
+                Asserts.assertEquals("Line " + (i + 1), exp, act);
                 return;
             }
         }
-        base.Asserts.assertEquals("Number of lines", expected.size(), actual.size());
+        Asserts.assertEquals("Number of lines", expected.size(), actual.size());
         counter.passed();
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
-public class MainFilesChecker extends base.MainChecker {
+public class MainFilesChecker extends MainChecker {
     public MainFilesChecker(final String className) {
         super(className);
     }
