@@ -1,27 +1,28 @@
 package expression;
 
 public class Variable extends Term {
-
-    private String variableName;
-
+    String variableName;
     public Variable(String name){
         variableName = name;
         hash = variableName.hashCode();
+        isConstant = false;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object instanceof Variable){
-            Variable var = (Variable)object;
-            return variableName.equals(var.variableName);
-        } else {
-            return false;
+    public int evaluate(int x, int y, int z) {
+        if(variableName.equals("x")){
+            return x;
+        } else if(variableName.equals("y")){
+            return y;
+        } else if(variableName.equals("z")){
+            return z;
         }
+        throw new  IllegalArgumentException("unexpected variable name");
     }
 
     @Override
-    public String toString(){
-        return variableName;
+    public double evaluate(double x) {
+        return x;
     }
 
     @Override
@@ -30,7 +31,12 @@ public class Variable extends Term {
     }
 
     @Override
-    public double evaluate(double x) {
-        return x;
+    public String toString() {
+        return variableName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj) && variableName.equals(((Variable)obj).variableName);
     }
 }

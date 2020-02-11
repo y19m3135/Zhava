@@ -1,12 +1,10 @@
 package expression;
 
-public abstract class Term implements AbstractExpression{
-    protected int value;
-    protected double doubleValue;
-    protected int hash;
+public abstract class Term extends CommonExpression {
+    protected Number value;
 
     @Override
-    public int hashCode() {
-        return hash;
+    public boolean equals(Object obj) {
+        return obj!=null && obj.getClass() == this.getClass();
     }
 }

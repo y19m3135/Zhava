@@ -2,30 +2,34 @@ package expression;
 
 public class Const extends Term {
 
-    public Const(Number someValue){
-        value = someValue.intValue();
-        doubleValue = someValue.doubleValue();
-        hash = value;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        return object instanceof Const
-                && ((Const)object).value == value;
-    }
-
-    @Override
-    public String toString() {
-        return value == doubleValue ? Integer.toString(value) : Double.toString(doubleValue);
-    }
-
-    @Override
-    public int evaluate(int x) {
-        return value;
+    public Const(Number value) {
+        this.value = value;
+        hash = value.hashCode();
+        isConstant = true;
     }
 
     @Override
     public double evaluate(double x) {
-        return doubleValue;
+        return value.doubleValue();
+    }
+
+    @Override
+    public int evaluate(int x) {
+        return value.intValue();
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return value.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj) && value.equals(((Const) obj).value);
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
     }
 }
