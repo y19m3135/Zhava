@@ -81,11 +81,11 @@ public class ExceptionsTest extends ParserTest {
 
     protected static void testOverflow() {
         //noinspection Convert2MethodRef
-        testOverflow((a, b) -> a + b, "+", new Add(VX, VY));
-        testOverflow((a, b) -> a - b, "-", new Subtract(VX, VY));
-        testOverflow((a, b) -> a * b, "*", new Multiply(VX, VY));
-        testOverflow((a, b) -> b == 0 ? Long.MAX_VALUE : a / b, "/", new Divide(VX, VY));
-        testOverflow((a, b) -> -b, "<- ignore first argument, unary -", new Negate(VY));
+        testOverflow((a, b) -> a + b, "+", new CheckedAdd(VX, VY));
+        testOverflow((a, b) -> a - b, "-", new CheckedSubtract(VX, VY));
+        testOverflow((a, b) -> a * b, "*", new CheckedMultiply(VX, VY));
+        testOverflow((a, b) -> b == 0 ? Long.MAX_VALUE : a / b, "/", new CheckedDivide(VX, VY));
+        testOverflow((a, b) -> -b, "<- ignore first argument, unary -", new CheckedNegate(VY));
     }
 
     protected static void testOverflow(final LongBinaryOperator f, final String op, final TripleExpression expression) {

@@ -1,11 +1,9 @@
 package expression;
 
-public class Variable extends Term {
+public class Variable extends Expression {
     String variableName;
     public Variable(String name){
         variableName = name;
-        hash = variableName.hashCode();
-        isConstant = false;
     }
 
     @Override
@@ -17,26 +15,11 @@ public class Variable extends Term {
         } else if(variableName.equals("z")){
             return z;
         }
-        throw new  IllegalArgumentException("unexpected variable name");
-    }
-
-    @Override
-    public double evaluate(double x) {
-        return x;
-    }
-
-    @Override
-    public int evaluate(int x) {
-        return x;
+        throw new  IllegalArgumentException("strange variable name");
     }
 
     @Override
     public String toString() {
         return variableName;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj) && variableName.equals(((Variable)obj).variableName);
     }
 }

@@ -1,8 +1,9 @@
 package expression;
 
-/**
- * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
- */
-public interface Expression extends ToMiniString {
-    int evaluate(int x);
+public abstract class Expression extends ExpressionElement implements TripleExpression {
+    protected int value;
+
+    {
+        type = ElementType.Expression;
+    }
 }
