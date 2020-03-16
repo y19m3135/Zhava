@@ -1,5 +1,7 @@
 package expression;
 
+import expression.generic.Evaluator;
+
 public class Const extends Expression {
     public Const(Integer value) {
         this.value = value;
@@ -7,8 +9,8 @@ public class Const extends Expression {
 
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return value;
+    public <T extends Number> T evaluate(int x, int y, int z, Evaluator<T> evaluator) {
+        return evaluator.convertInt(value);
     }
 
     @Override

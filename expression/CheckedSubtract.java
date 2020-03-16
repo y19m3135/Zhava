@@ -2,6 +2,7 @@ package expression;
 
 import expression.exceptions.EvaluationException;
 import expression.exceptions.IntegerOverflowException;
+import expression.generic.Evaluator;
 
 public class CheckedSubtract extends BinaryOperation {
 
@@ -10,14 +11,8 @@ public class CheckedSubtract extends BinaryOperation {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        int first = left.evaluate(x, y, z), second = right.evaluate(x, y, z),
-                res = first - second;
-        if (((res ^ first) & (first ^ second)) < 0) {
-            throw new IntegerOverflowException("at: " + toString());
-        } else {
-            return res;
-        }
+    public <T extends Number> T evaluate(int x, int y, int z, Evaluator<T> evaluator) {
+        return  evaluator.subtract(left.evaluate(x, y, z, evaluator), right.evaluate(x, y, z, evaluator));
     }
 
     @Override

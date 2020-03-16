@@ -1,21 +1,24 @@
 package expression;
 
+import expression.generic.Evaluator;
+
 public class Variable extends Expression {
     String variableName;
-    public Variable(String name){
+
+    public Variable(String name) {
         variableName = name;
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        if(variableName.equals("x")){
-            return x;
-        } else if(variableName.equals("y")){
-            return y;
-        } else if(variableName.equals("z")){
-            return z;
+    public <T extends Number> T evaluate(int x, int y, int z, Evaluator<T> evaluator) {
+        if (variableName.equals("x")) {
+            return evaluator.convertInt(x);
+        } else if (variableName.equals("y")) {
+            return evaluator.convertInt(y);
+        } else if (variableName.equals("z")) {
+            return evaluator.convertInt(z);
         }
-        throw new  IllegalArgumentException("strange variable name");
+        throw new IllegalArgumentException("strange variable name");
     }
 
     @Override

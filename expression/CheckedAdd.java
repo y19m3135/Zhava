@@ -1,7 +1,6 @@
 package expression;
 
-import expression.exceptions.EvaluationException;
-import expression.exceptions.IntegerOverflowException;
+import expression.generic.Evaluator;
 
 public class CheckedAdd extends BinaryOperation {
 
@@ -9,16 +8,12 @@ public class CheckedAdd extends BinaryOperation {
         super(left, right);
     }
 
+
     @Override
-    public int evaluate(int x, int y, int z) {
-        int first = left.evaluate(x, y, z), second = right.evaluate(x, y, z),
-                res = first + second;
-        if (((res ^ first) & (res ^ second)) < 0) {
-            throw new IntegerOverflowException("at: " + toString());
-        } else {
-            return res;
-        }
+    public <T extends Number> T evaluate(int x, int y, int z, Evaluator<T> evaluator) {
+        return evaluator.add(left.evaluate(x, y, z, evaluator), right.evaluate(x, y, z, evaluator));
     }
+
 
     @Override
     public String toString() {

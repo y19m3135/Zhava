@@ -2,6 +2,7 @@ package expression;
 
 import expression.exceptions.EvaluationException;
 import expression.exceptions.IntegerOverflowException;
+import expression.generic.Evaluator;
 
 public class CheckedNegate extends UnaryOperation {
 
@@ -10,13 +11,8 @@ public class CheckedNegate extends UnaryOperation {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        int res = expression.evaluate(x, y, z);
-        if (res == Integer.MIN_VALUE) {
-            throw new IntegerOverflowException("at: " + toString());
-        } else {
-            return -res;
-        }
+    public <T extends Number> T evaluate(int x, int y, int z, Evaluator<T> evaluator) {
+        return evaluator.negate(expression.evaluate(x, y, z, evaluator));
     }
 
     @Override

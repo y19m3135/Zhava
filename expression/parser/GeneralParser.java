@@ -6,20 +6,20 @@ import java.util.Set;
 
 public abstract class GeneralParser implements Parser {
     private static final Set<Character> operations =
-            Set.of('+', '-', '*', '/', 'l', 'p');
-    protected StringSource sauce;
+            Set.of('+', '-', '*', '/', 'm', 'c');
+    protected StringSource source;
     protected char current;
 
     protected boolean test(char expected) {
         if (current == expected) {
-            current = sauce.next();
+            current = source.next();
             return true;
         }
         return false;
     }
 
     protected void nextChar() {
-        current = sauce.next();
+        current = source.next();
     }
 
     protected boolean hasNext() {
@@ -53,11 +53,11 @@ public abstract class GeneralParser implements Parser {
     }
 
     protected int getCursor() {
-        return sauce.getCursor();
+        return source.getCursor();
     }
 
     private String getParsedPart() {
-        return sauce.getSkippedPart();
+        return source.getSkippedPart();
     }
 
     protected String exceptionMessage(StringBuilder errorPart) {

@@ -17,29 +17,11 @@ public class ExpressionParser extends GeneralParser {
                 "-", CheckedSubtract.class,
                 "*", CheckedMultiply.class,
                 "/", CheckedDivide.class,
-                "//", CheckedLog.class,
-                "**", CheckedPow.class);
+                "min", CheckedMin.class,
+                "max", CheckedMax.class);
         unaryOperations = Map.of("-", CheckedNegate.class,
-                "log2", CheckedLog2.class,
-                "pow2", CheckedPow2.class);
+                "count", CheckedCount.class);
     }
-
-//    enum Token {
-//        ADD("+") {
-//            @Override
-//            protected TripleExpression getOperation(TripleExpression a, TripleExpression b) {
-//                return new CheckedAdd(a, b);
-//            }
-//        }
-//
-//        private final String op;
-//
-//        Token(String op) {
-//            this.op = op;
-//        }
-//
-//        protected abstract TripleExpression getOperation(TripleExpression a, TripleExpression b);
-//    }
 
     private Expression mergeExpressions(List<ExpressionElement> elements) throws ParseException {
         LinkedList<ExpressionElement> nextStep = new LinkedList<>();
@@ -81,7 +63,7 @@ public class ExpressionParser extends GeneralParser {
         //остались только бинарные операции, есть хотя бы одно выражение, потому что иначе произошло бы исключение
         //проходясь по ним, схлопнем остальное выражение в одно
 
-        for (int priority = 1; priority < 4; priority++) {
+        for (int priority = 1; priority <= 4; priority++) {
             prev = elements.get(0);
             int i = 1;
             for (; i < elements.size(); i += 2) {
@@ -208,25 +190,24 @@ public class ExpressionParser extends GeneralParser {
             return test('/')
                     ? new Operator("//", 1)
                     : new Operator("/", 2);
-        } else if (test('p')) {
-            expect("ow2");
-            if (Character.isLetter(current)) {
-                throw new ParseException("inability to use variable after pow2 for unknown reason");
+        } else if (test('m')) {
+            if (test('i')){
+                expect('n');
+                return new Operator("min", 4);
+            } else if (test('a')){
+                expect('x');
+                return new Operator("max", 4);
             }
-            return new Operator("pow2", 0);
-        } else if (test('l')) {
-            expect("og2");
-            if (Character.isLetter(current)) {
-                throw new ParseException("inability to use variable after log2 for unknown reason");
-            }
-            return new Operator("log2", 0);
+        } else if (test('c')) {
+            expect("ount");
+            return new Operator("count", 0);
         }
         throw new ParseException("strange operator");
     }
 
     @Override
     public Expression parse(String expression) throws ParseException {
-        sauce = new StringSource(expression);
+        source = new StringSource(expression);
         nextChar();
         Expression res = parseExpression(0);
         if (hasNext()) {
